@@ -57,7 +57,8 @@ Supernatural
 
 Because I didn't specify albums that include the string 'Rock' just which albums are equal to 'Rock'
 */
-
+#1 done
+#2 done
 #3, 3c
 SHOW CREATE TABLE albums;
 
