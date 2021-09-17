@@ -91,3 +91,8 @@ WHERE release_date <= 1999 and release_date >= 1990;
 SELECT name
 FROM albums
 WHERE sales < 20;
+
+#4f
+SELECT name
+FROM albums
+WHERE genre = 'Rock';
