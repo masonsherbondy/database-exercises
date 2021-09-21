@@ -38,7 +38,7 @@ WHERE last_name LIKE 'e%' AND last_name LIKE '%e';
 #3 
 SELECT UPPER(CONCAT(first_name,' ', last_name)) as full_name
 FROM employees
-WHERE last_name LIKE 'e%' AND last_name LIKE '%e';
+WHERE last_name LIKE 'E%e';
 
 #4
 SELECT *, DATEDIFF(CURDATE(), hire_date) as days_employed
@@ -47,9 +47,16 @@ WHERE hire_date LIKE "199%" AND birth_date LIKE "%12-25";
 
 
 #5
-SELECT MAX(salary) FROM salaries;
-SELECT MIN(salary) FROM salaries;
+SELECT MAX(salary), MIN(salary) FROM salaries
+WHERE to_date > CURDATE();
+
 
 #6
-SELECT *, CONCAT(SUBSTR(LOWER(first_name),1,1), SUBSTR(LOWER(last_name),1,4), '_', SUBSTR(birth_date,6,2), SUBSTR(birth_date,3,2)) AS username
+SELECT *, CONCAT(
+SUBSTR(LOWER(first_name), 1, 1), 
+SUBSTR(LOWER(last_name), 1, 4),
+ '_', 
+ SUBSTR(birth_date, 6, 2), 
+ SUBSTR(birth_date, 3, 2)
+ ) AS username
 FROM employees;
