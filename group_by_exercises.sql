@@ -17,12 +17,12 @@
 
 9. More practice with aggregate functions:
 
-Find the historic average salary for all employees. Now determine the current average salary.
-Now find the historic average salary for each employee. Reminder that when you hear "for each" in the problem statement, you'll probably be grouping by that exact column.
-Find the current average salary for each employee.
-Find the maximum salary for each current employee.
-Now find the max salary for each current employee where that max salary is greater than $150,000.
-Find the current average salary for each employee where that average salary is between $80k and $90k.
+a. Find the historic average salary for all employees. Now determine the current average salary.
+b. Now find the historic average salary for each employee. Reminder that when you hear "for each" in the problem statement, you'll probably be grouping by that exact column.
+c. Find the current average salary for each employee.
+d. Find the maximum salary for each current employee.
+e. Now find the max salary for each current employee where that max salary is greater than $150,000.
+f. Find the current average salary for each employee where that average salary is between $80k and $90k.
 */
 
 USE employees;
@@ -60,7 +60,7 @@ FROM employees
 WHERE first_name IN('Irena', 'Vidya', 'Maya')
 GROUP BY gender;
 
-#8 -- There are 300,024 usernames total. 285,872 unique usernames implies duplicate usernames. The difference between the two is 14,152 duplicate usernames
+#8 -- There are 300,024 usernames total. 285,872 unique usernames implies duplicate usernames. The difference says there are 14,152 duplicates.
 SELECT CONCAT(
 SUBSTR(LOWER(first_name), 1, 1), 
 SUBSTR(LOWER(last_name), 1, 4),
@@ -69,4 +69,39 @@ SUBSTR(LOWER(last_name), 1, 4),
  SUBSTR(birth_date, 3, 2)
  ) AS username
 FROM employees #finishing the query here returns 300,024 rows
-GROUP BY username; #adding GROUP BY returns 285,872 rows
+GROUP BY username #adding GROUP BY returns 285,872 rows
+HAVING COUNT(username) > 1; #counting all the  usernames that occur more than once gives 13,251 usernames with duplicates
+
+#9a -- $63,810.74 historic avg. $72,012.24 current avg
+SELECT AVG(salary)
+FROM salaries
+WHERE to_date > CURDATE();
+
+#9b
+SELECT emp_no, AVG(salary)
+FROM salaries
+GROUP BY emp_no;
+
+#9c
+SELECT emp_no, AVG(salary)
+FROM salaries
+WHERE to_date > CURDATE()
+GROUP BY emp_no;
+
+#9d
+SELECT emp_no, MAX(salary)
+FROM salaries
+GROUP BY emp_no;
+
+#9e
+SELECT emp_no, MAX(salary) as maximum_effort
+FROM salaries
+GROUP BY emp_no
+HAVING maximum_effort > 150000;
+
+#9f
+SELECT emp_no, AVG(salary) AS salaries
+FROM salaries
+WHERE to_date > CURDATE()
+GROUP BY emp_no
+HAVING salaries BETWEEN 80000 AND 90000;
