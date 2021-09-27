@@ -39,10 +39,10 @@ WHERE emp_no IN (
 #3. How many people in the employees table are no longer working for the company? Give the answer in a comment in your code.
 SELECT COUNT(emp_no)
 FROM employees
-WHERE emp_no IN (
+WHERE emp_no NOT IN (
 		SELECT emp_no
 		FROM dept_emp
-		WHERE to_date < NOW()
+		WHERE to_date > NOW()
 );
 # 85,108 employees no longer work for the company
 
