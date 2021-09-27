@@ -19,7 +19,8 @@ USE employees;
 #1. Find all the current employees with the same hire date as employee 101010 using a sub-query.
 SELECT first_name, last_name, hire_date
 FROM employees
-WHERE hire_date = (
+JOIN dept_emp USING(emp_no)
+WHERE to_date > NOW() AND hire_date = (
 		SELECT hire_date
 		FROM employees
 		WHERE emp_no = '101010'
