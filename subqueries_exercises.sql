@@ -50,7 +50,7 @@ WHERE emp_no NOT IN (
 		FROM dept_emp
 		WHERE to_date > NOW()
 );
-# 85,108 employees no longer work for the company
+# 59,900 employees no longer work for the company
 
 #4. Find all the current department managers that are female. List their names in a comment in your code.
 SELECT first_name, last_name, gender
