@@ -20,28 +20,28 @@ USE employees;
 SELECT first_name, last_name, hire_date
 FROM employees
 WHERE hire_date = (
-				SELECT hire_date
-				FROM employees
-				WHERE emp_no = '101010'
+		SELECT hire_date
+		FROM employees
+		WHERE emp_no = '101010'
 );
 
 #2. Find all the titles ever held by all current employees with the first name Aamod.
 SELECT DISTINCT title
 FROM titles
 WHERE emp_no IN (
-				SELECT emp_no
-				FROM dept_emp
-				JOIN employees USING(emp_no)
-				WHERE first_name = 'Aamod' AND to_date > NOW()
+		SELECT emp_no
+		FROM dept_emp
+		JOIN employees USING(emp_no)
+		WHERE first_name = 'Aamod' AND to_date > NOW()
 );
 
 #3. How many people in the employees table are no longer working for the company? Give the answer in a comment in your code.
 SELECT COUNT(emp_no)
 FROM employees
 WHERE emp_no IN (
-				SELECT emp_no
-				FROM dept_emp
-				WHERE to_date < NOW()
+		SELECT emp_no
+		FROM dept_emp
+		WHERE to_date < NOW()
 );
 # 85,108 employees no longer work for the company
 
@@ -67,8 +67,8 @@ SELECT first_name, last_name, salary
 FROM employees
 JOIN salaries s USING(emp_no)
 WHERE s.to_date > NOW() AND salary > (
-									SELECT AVG(salary)
-									FROM salaries
+				SELECT AVG(salary)
+				FROM salaries
 )
 ORDER BY salary;
 
@@ -76,15 +76,15 @@ ORDER BY salary;
 SELECT COUNT(salary)
 FROM salaries
 WHERE to_date > NOW() AND salary > ((
-									SELECT salary
-									FROM salaries
-									WHERE to_date > NOW()
-									ORDER BY salary DESC
-									LIMIT 1
+				SELECT salary
+				FROM salaries
+				WHERE to_date > NOW()
+				ORDER BY salary DESC
+				LIMIT 1
 ) - (
-		SELECT STDDEV(salary)
-		FROM salaries
-		WHERE to_date > NOW()
+SELECT STDDEV(salary)
+FROM salaries
+WHERE to_date > NOW()
 )
 );
 #83 current salaries are within 1 standard deviation (using current salaries) of the current highest salary
@@ -92,20 +92,20 @@ SELECT (
 		SELECT COUNT(salary)
 		FROM salaries
 		WHERE to_date > NOW() AND salary > ((
-											SELECT salary
-											FROM salaries
-											WHERE to_date > NOW()
-											ORDER BY salary DESC
-											LIMIT 1
+						SELECT salary
+						FROM salaries
+						WHERE to_date > NOW()
+						ORDER BY salary DESC
+						LIMIT 1
 ) - (
-	SELECT STDDEV(salary)
-	FROM salaries
-	WHERE to_date > NOW()
+SELECT STDDEV(salary)
+FROM salaries
+WHERE to_date > NOW()
 ))
 ) / (
-	SELECT COUNT(salary)
-	FROM salaries
-	WHERE to_date > NOW()
+SELECT COUNT(salary)
+FROM salaries
+WHERE to_date > NOW()
 )*100 AS Percent;
 # 83 salaries is .0029% of all salaries and .0346% of all current salaries
 
@@ -113,14 +113,14 @@ SELECT (
 SELECT COUNT(salary)
 FROM salaries
 WHERE to_date > NOW() AND salary > ((
-									SELECT salary
-									FROM salaries
-									WHERE to_date > NOW()
-									ORDER BY salary DESC
-									LIMIT 1
+				SELECT salary
+				FROM salaries
+				WHERE to_date > NOW()
+				ORDER BY salary DESC
+				LIMIT 1
 ) - (
-		SELECT STDDEV(salary)
-		FROM salaries
+SELECT STDDEV(salary)
+FROM salaries
 )
 );
 #78 current salaries are within 1 standard deviation of the current highest salary
@@ -153,9 +153,9 @@ SELECT dept_name
 FROM departments
 JOIN dept_manager USING(dept_no)
 WHERE dept_no IN (SELECT dept_no 
-					FROM dept_manager dm
-					JOIN employees e USING(emp_no)
-					WHERE dm.to_date > NOW() AND gender = 'F'
+			FROM dept_manager dm
+			JOIN employees e USING(emp_no)
+			WHERE dm.to_date > NOW() AND gender = 'F'
 
 ) AND to_date > NOW();
 
@@ -163,9 +163,9 @@ WHERE dept_no IN (SELECT dept_no
 SELECT first_name, last_name
 FROM employees
 WHERE emp_no = (SELECT emp_no
-				FROM salaries
-				ORDER BY salary DESC
-				LIMIT 1
+			FROM salaries
+			ORDER BY salary DESC
+			LIMIT 1
 );
 
 #3. Find the department name that the employee with the highest salary works in.
@@ -173,9 +173,9 @@ SELECT dept_name
 FROM departments
 JOIN dept_emp USING(dept_no)
 WHERE emp_no = (SELECT emp_no
-					FROM salaries
-					ORDER BY salary DESC
-					LIMIT 1
+			FROM salaries
+			ORDER BY salary DESC
+			LIMIT 1
 );
 #Sales is the department with the highest paid employee, current and historic.
 
