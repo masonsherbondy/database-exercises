@@ -29,11 +29,12 @@ CREATE TEMPORARY TABLE hopper_1550.employees_with_departments AS
 #2. Create a temporary table based on the payment table from the sakila database.
 
 CREATE TEMPORARY TABLE hopper_1550.sakila_payments_copy AS
-SELECT sakila.payment.payment_id, sakila.payment.customer_id, sakila.payment.staff_id, sakila.payment.rental_id, sakila.payment.amount, sakila.payment.payment_date, sakila.payment.last_update
+SELECT *
 FROM sakila.payment;
 
+DROP TABLE hopper_1550.sakila_payments_copy;
 #Write the SQL necessary to transform the amount column such that it is stored as an integer representing the number of cents of the payment. For example, 1.99 should become 199.
-ALTER TABLE hopper_1550.sakila_payments_copy ADD amount1 INT UNSIGNED NOT NULL;
+ALTER TABLE hopper_1550.sakila_payments_copy ADD amount1 INT NOT NULL;
 UPDATE hopper_1550.sakila_payments_copy SET amount1 = amount *100;
 ALTER TABLE hopper_1550.sakila_payments_copy DROP amount;
 ALTER TABLE hopper_1550.sakila_payments_copy RENAME COLUMN amount1 TO amount;
